@@ -1,4 +1,4 @@
-DOMAIN = "shield_volume"
+DOMAIN = "adb_logcat_events"
 
 CONF_HOST = "host"
 CONF_PORT = "port"
@@ -6,7 +6,7 @@ CONF_NAME = "name"
 
 DEFAULT_PORT = 5555
 
-EVENT_VOLUME_BUTTON = "shield_volume_button"
+EVENT_VOLUME_BUTTON = "adb_logcat_events_button"
 
 ACTION_VOLUME_UP = "volume_up"
 ACTION_VOLUME_DOWN = "volume_down"

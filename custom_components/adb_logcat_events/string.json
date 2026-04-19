@@ -2,16 +2,16 @@
   "config": {
     "step": {
       "user": {
-        "title": "Configure a Shield TV device",
+        "title": "Configure an Android TV device",
         "data": {
           "name": "Device name",
-          "host": "Shield TV IP address",
+          "host": "Android TV IP address",
           "port": "ADB port (default: 5555)"
         }
       },
       "pairing": {
         "title": "ADB authorization required",
-        "description": "Accept the ADB authorization prompt displayed on your Shield TV, then click Submit."
+        "description": "Accept the ADB authorization prompt displayed on your Android TV, then click Submit."
       }
     },
     "error": {

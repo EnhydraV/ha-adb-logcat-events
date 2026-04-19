@@ -1,10 +1,10 @@
 # ADB Logcat Events
 
-Custom Home Assistant component that captures **volume+** and **volume−** button presses from the Nvidia Shield TV remote via ADB logcat, and exposes them as HA events usable in automations.
+Custom Home Assistant component that captures **volume+** and **volume−** button presses from the Nvidia Android TV remote via ADB logcat, and exposes them as HA events usable in automations.
 
 ## Prerequisites
 
-- **ADB debugging enabled** on the Shield TV  
+- **ADB debugging enabled** on the Android TV  
   `Settings → Device Preferences → Developer options → Network debugging`
 - Home Assistant 2023.1+
 - HACS installed
@@ -20,20 +20,20 @@ Custom Home Assistant component that captures **volume+** and **volume−** butt
 
 Settings → Devices & Services → Add integration → **ADB Logcat Events**
 
-- **Name**: free label (e.g. `Shield TV Living Room`)
-- **IP**: IP address of the Shield TV
+- **Name**: free label (e.g. `Android TV Living Room`)
+- **IP**: IP address of the Android TV
 - **Port**: `5555` (ADB default)
 
-On first connection, **accept the ADB authorization prompt** displayed on the Shield TV.
+On first connection, **accept the ADB authorization prompt** displayed on the Android TV.
 
 ## HA Event
 
-Each volume button press fires the `shield_volume_button` event:
+Each volume button press fires the `adb_logcat_events_button` event:
 
 ```yaml
-event_type: shield_volume_button
+event_type: adb_logcat_events_button
 event_data:
-  device_name: "Shield TV Living Room"
+  device_name: "Android TV Living Room"
   entry_id: "abc123..."
   action: volume_up   # or volume_down
 ```
@@ -41,18 +41,18 @@ event_data:
 ## Example Automation
 
 ```yaml
-alias: "Shield Living Room - Volume → Amplifier"
+alias: "Android Living Room - Volume → Amplifier"
 trigger:
   - platform: event
-    event_type: shield_volume_button
+    event_type: adb_logcat_events_button
     event_data:
-      device_name: "Shield TV Living Room"
+      device_name: "Android TV Living Room"
       action: volume_up
     id: volume_up
   - platform: event
-    event_type: shield_volume_button
+    event_type: adb_logcat_events_button
     event_data:
-      device_name: "Shield TV Living Room"
+      device_name: "Android TV Living Room"
       action: volume_down
     id: volume_down
 action:
@@ -83,7 +83,7 @@ max: 5
 
 ## Technical Notes
 
-- The ADB key is generated automatically and stored in `/config/.storage/shield_volume_adb_key`
+- The ADB key is generated automatically and stored in `/config/.storage/adb_logcat_events_adb_key`
 - On network loss, automatic reconnection with exponential backoff (5s → 10s → 20s … max 5 min)
-- Multi-device support: add one entry per Shield TV
+- Multi-device support: add one entry per Android TV
 - Does not interfere with the **Android TV Remote** integration (distinct protocols)

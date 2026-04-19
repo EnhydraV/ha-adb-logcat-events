@@ -1,0 +1,11 @@
+{
+  "domain": "adb_logcat_events",
+  "name": "ADB Logcat Events",
+  "version": "0.0.1",
+  "documentation": "https://github.com/EnhydraV/ha-adb-logcat-events",
+  "issue_tracker": "https://github.com/EnhydraV/ha-adb-logcat-events/issues",
+  "requirements": ["adb-shell==0.4.4", "rsa==4.9"],
+  "config_flow": true,
+  "iot_class": "local_push",
+  "codeowners": []
+}

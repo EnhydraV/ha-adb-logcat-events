@@ -19,7 +19,7 @@ from .const import (
 
 _LOGGER = logging.getLogger(__name__)
 
-ADB_KEY_PATH = "/config/.storage/shield_volume_adb_key"
+ADB_KEY_PATH = "/config/.storage/adb_logcat_events_adb_key"
 
 
 def _get_signer() -> PythonRSASigner:
@@ -30,7 +30,7 @@ def _get_signer() -> PythonRSASigner:
         with open(ADB_KEY_PATH + ".pub", "rb") as f:
             public = f.read()
     except FileNotFoundError:
-        _LOGGER.info("Generating a new ADB key for shield_volume")
+        _LOGGER.info("Generating a new ADB key for adb_logcat_events")
         keygen(ADB_KEY_PATH)
         with open(ADB_KEY_PATH, "rb") as f:
             private = f.read()
@@ -56,7 +56,7 @@ class ShieldLogcatListener:
         """Start the background listening task."""
         self._stop_event.clear()
         self._task = self.hass.loop.create_task(
-            self._listen_loop(), name=f"shield_volume_{self.entry_id}"
+            self._listen_loop(), name=f"adb_logcat_events_{self.entry_id}"
         )
         _LOGGER.info("ADB Logcat Events: starting listener for %s (%s:%s)", self.name, self.host, self.port)
 
