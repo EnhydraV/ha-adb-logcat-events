@@ -1,0 +1,26 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Configure a Shield TV device",
+        "data": {
+          "name": "Device name",
+          "host": "Shield TV IP address",
+          "port": "ADB port (default: 5555)"
+        }
+      },
+      "pairing": {
+        "title": "ADB authorization required",
+        "description": "Accept the ADB authorization prompt displayed on your Shield TV, then click Submit."
+      }
+    },
+    "error": {
+      "cannot_connect": "Unable to connect to the Shield TV. Check the IP address and that ADB debugging is enabled.",
+      "auth_failed": "ADB authorization denied on the Shield TV.",
+      "unknown": "Unexpected error."
+    },
+    "abort": {
+      "already_configured": "This device is already configured."
+    }
+  }
+}
