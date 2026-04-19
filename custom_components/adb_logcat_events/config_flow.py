@@ -21,7 +21,7 @@ async def _test_connection(hass: HomeAssistant, host: str, port: int) -> str | N
     """Attempt an ADB connection. Returns None on success, otherwise an error code."""
     try:
         signer = await hass.async_add_executor_job(_get_signer)
-        device = AdbDeviceTcpAsync(host, port, default_timeout_s=10.0)
+        device = AdbDeviceTcpAsync(host, port)
         connected = await device.connect(rsa_keys=[signer], auth_timeout_s=15.0)
         await device.close()
         if not connected:
@@ -67,7 +67,7 @@ class ShieldVolumeConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
         schema = vol.Schema(
             {
-                vol.Required(CONF_NAME, default="Shield TV Living Room"): str,
+                vol.Required(CONF_NAME, default="Android TV Living Room"): str,
                 vol.Required(CONF_HOST): str,
                 vol.Optional(CONF_PORT, default=DEFAULT_PORT): int,
             }

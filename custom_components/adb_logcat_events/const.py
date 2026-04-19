@@ -12,9 +12,10 @@ ACTION_VOLUME_UP = "volume_up"
 ACTION_VOLUME_DOWN = "volume_down"
 
 # Logcat patterns (keyAction: 1 = key up, avoids double-fire on key down)
+# Skipping the PID part "( XXXX):" to stay robust across reboots
 LOGCAT_PATTERNS = {
-    "WindowManager: handleComboKeys keyCode: 24, keyAction: 1": ACTION_VOLUME_UP,
-    "WindowManager: handleComboKeys keyCode: 25, keyAction: 1": ACTION_VOLUME_DOWN,
+    "handleComboKeys keyCode: 24, keyAction: 1": ACTION_VOLUME_UP,
+    "handleComboKeys keyCode: 25, keyAction: 1": ACTION_VOLUME_DOWN,
 }
 
 # Reconnection backoff

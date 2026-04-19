@@ -103,7 +103,7 @@ class ShieldLogcatListener:
     async def _connect_and_stream(self) -> None:
         """Open the ADB connection and stream logcat output."""
         signer = await self.hass.async_add_executor_job(_get_signer)
-        device = AdbDeviceTcpAsync(self.host, self.port, default_timeout_s=10.0)
+        device = AdbDeviceTcpAsync(self.host, self.port)
 
         try:
             await device.connect(rsa_keys=[signer], auth_timeout_s=10.0)
@@ -112,7 +112,8 @@ class ShieldLogcatListener:
             # Flush existing logcat, listen to new lines only.
             # Filter on WindowManager to reduce data volume.
             async for line in device.streaming_shell(
-                    "logcat -v brief -T 1 WindowManager:V *:S"
+                    "logcat -v brief -T 1 WindowManager:V *:S",
+                    read_timeout_s=None,
             ):
                 if self._stop_event.is_set():
                     break
@@ -120,6 +121,8 @@ class ShieldLogcatListener:
                 line = line.strip()
                 if not line:
                     continue
+
+                _LOGGER.debug("ADB Logcat Events [%s] raw: %s", self.name, line)
 
                 for pattern, action in LOGCAT_PATTERNS.items():
                     if pattern in line:

@@ -1,12 +1,14 @@
 # ADB Logcat Events
 
-Custom Home Assistant component that captures **volume+** and **volume−** button presses from the Nvidia Android TV remote via ADB logcat, and exposes them as HA events usable in automations.
+Custom Home Assistant component that captures **volume+** and **volume−** button presses from the Android TV remote via ADB logcat, and exposes them as HA events usable in automations.
+
+Tested successfully on Nvidia Shield TV 2019
 
 ## Prerequisites
 
 - **ADB debugging enabled** on the Android TV  
   `Settings → Device Preferences → Developer options → Network debugging`
-- Home Assistant 2023.1+
+- Home Assistant 2026
 - HACS installed
 
 ## Installation via HACS

@@ -2,21 +2,21 @@
   "config": {
     "step": {
       "user": {
-        "title": "Configurer un appareil Shield TV",
+        "title": "Configurer un appareil Android TV",
         "data": {
           "name": "Nom de l'appareil",
-          "host": "Adresse IP du Shield TV",
+          "host": "Adresse IP du Android TV",
           "port": "Port ADB (défaut : 5555)"
         }
       },
       "pairing": {
         "title": "Autorisation ADB requise",
-        "description": "Accepte la demande d'autorisation ADB qui s'affiche sur ton Shield TV, puis clique sur Valider."
+        "description": "Accepte la demande d'autorisation ADB qui s'affiche sur ton Android TV, puis clique sur Valider."
       }
     },
     "error": {
-      "cannot_connect": "Impossible de se connecter au Shield TV. Vérifie l'IP et que le débogage ADB est activé.",
-      "auth_failed": "Autorisation ADB refusée sur le Shield TV.",
+      "cannot_connect": "Impossible de se connecter au Android TV. Vérifie l'IP et que le débogage ADB est activé.",
+      "auth_failed": "Autorisation ADB refusée sur le Android TV.",
       "unknown": "Erreur inattendue."
     },
     "abort": {
