@@ -12,6 +12,8 @@ from .logcat_listener import ShieldLogcatListener
 
 _LOGGER = logging.getLogger(__name__)
 
+PLATFORMS = ["binary_sensor", "button"]
+
 
 async def async_setup(hass: HomeAssistant, config: dict) -> bool:
     """Global domain setup."""
@@ -40,11 +42,15 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
     entry.async_on_unload(listener.async_stop)
 
+    await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
+
     return True
 
 
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Stop the ADB listener when the entry is removed."""
+    await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
+
     listener: ShieldLogcatListener = hass.data[DOMAIN].pop(entry.entry_id, None)
     if listener:
         await listener.async_stop()

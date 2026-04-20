@@ -22,5 +22,17 @@
     "abort": {
       "already_configured": "This device is already configured."
     }
+  },
+  "entity": {
+    "binary_sensor": {
+      "connection_status": {
+        "name": "Connection"
+      }
+    },
+    "button": {
+      "reconnect": {
+        "name": "Reconnect"
+      }
+    }
   }
 }

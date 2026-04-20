@@ -8,6 +8,8 @@ from adb_shell.adb_device_async import AdbDeviceTcpAsync
 from adb_shell.auth.sign_pythonrsa import PythonRSASigner
 from adb_shell.auth.keygen import keygen
 
+from homeassistant.helpers.dispatcher import async_dispatcher_send
+
 from .const import (
     BACKOFF_INITIAL,
     BACKOFF_MAX,
@@ -15,6 +17,7 @@ from .const import (
     DOMAIN,
     EVENT_VOLUME_BUTTON,
     LOGCAT_PATTERNS,
+    SIGNAL_CONNECTION_STATE,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -51,6 +54,7 @@ class ShieldLogcatListener:
         self.name = name
         self._task: asyncio.Task | None = None
         self._stop_event = asyncio.Event()
+        self.connected: bool = False
 
     async def async_start(self) -> None:
         """Start the background listening task."""
@@ -89,6 +93,7 @@ class ShieldLogcatListener:
                     "ADB Logcat Events: error on %s: %s. Reconnecting in %ds.",
                     self.name, exc, backoff
                 )
+                self._set_connected(False)
 
             if self._stop_event.is_set():
                 return
@@ -100,6 +105,17 @@ class ShieldLogcatListener:
 
             backoff = min(backoff * BACKOFF_MULTIPLIER, BACKOFF_MAX)
 
+    def _set_connected(self, state: bool) -> None:
+        """Met à jour l'état de connexion et notifie les entités abonnées."""
+        if self.connected == state:
+            return
+        self.connected = state
+        async_dispatcher_send(
+            self.hass,
+            SIGNAL_CONNECTION_STATE.format(entry_id=self.entry_id),
+            state,
+        )
+
     async def _connect_and_stream(self) -> None:
         """Open the ADB connection and stream logcat output."""
         signer = await self.hass.async_add_executor_job(_get_signer)
@@ -108,6 +124,7 @@ class ShieldLogcatListener:
         try:
             await device.connect(rsa_keys=[signer], auth_timeout_s=10.0)
             _LOGGER.info("ADB Logcat Events: connected to %s", self.name)
+            self._set_connected(True)
 
             # Flush existing logcat, listen to new lines only.
             # Filter on WindowManager to reduce data volume.
@@ -138,6 +155,7 @@ class ShieldLogcatListener:
                         break
 
         finally:
+            self._set_connected(False)
             try:
                 await device.close()
             except Exception:

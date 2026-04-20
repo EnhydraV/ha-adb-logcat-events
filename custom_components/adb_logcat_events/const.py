@@ -18,6 +18,9 @@ LOGCAT_PATTERNS = {
     "handleComboKeys keyCode: 25, keyAction: 1": ACTION_VOLUME_DOWN,
 }
 
+# Signal dispatcher pour les changements d'état de connexion
+SIGNAL_CONNECTION_STATE = f"{DOMAIN}_connection_state_{{entry_id}}"
+
 # Reconnection backoff
 BACKOFF_INITIAL = 5       # seconds
 BACKOFF_MULTIPLIER = 2
